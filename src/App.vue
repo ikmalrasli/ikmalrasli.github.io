@@ -195,15 +195,9 @@ export default {
         default: return null
       }
     },
-    // handleResize() {
-    //   this.windowWidth = window.innerWidth;
-    //   // Update maximized state for all windows when screen size changes
-    //   this.openWindows.forEach(icon => {
-    //     if (this.windowStates[icon]) {
-    //       this.windowStates[icon].maximized = this.windowWidth < 768;
-    //     }
-    //   });
-    // }
+    handleResize() {
+      this.windowWidth = window.innerWidth;
+    }
   },
   mounted() {
     this.updateTime();
