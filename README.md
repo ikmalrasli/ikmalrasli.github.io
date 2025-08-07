@@ -5,10 +5,10 @@
   I'm a Control Systems Engineer with hands-on experience in the oil and gas industry. I am adept at turning client needs into technical solutions, with expertise in PLC programming, HMI development, and system integration. I am also passionate about software development, building scalable applications with Python and JavaScript. I continuously improve my skills through personal projects.
 
 --Features--<br>
-  Projects: Detailed showcase of control systems, IoT, and software development projects.
-  Experience: Outlines professional history as a Control Systems Engineer, School Teacher, and Industrial Trainee.
-  Skills: Lists technical skills in both industrial automation and software development.
-  Resume/CV: Provides a downloadable resume for quick reference.
+  Projects: Detailed showcase of control systems, IoT, and software development projects.<br>
+  Experience: Outlines professional history as a Control Systems Engineer, School Teacher, and Industrial Trainee.<br>
+  Skills: Lists technical skills in both industrial automation and software development.<br>
+  Resume/CV: Provides a downloadable resume for quick reference.<br>
 
 --Technologies Used--<br>
   Frontend: HTML, CSS, JavaScript
