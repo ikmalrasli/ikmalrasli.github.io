@@ -1,9 +1,9 @@
 {
-  "name": "ikmalrasli.github.io",
+  "name": "portfolio",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://ikmalrasli.github.io/",
+  "homepage": "https://ikmalrasli.github.io/portfolio/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
