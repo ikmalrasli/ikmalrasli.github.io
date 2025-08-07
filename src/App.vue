@@ -271,42 +271,40 @@ export default {
     </div>
 
     <!-- Popup Windows -->
-    <Transition-group name="slide-window">
-      <div v-for="icon in openWindows" :key="icon" class="fixed z-50 w-[100vw] md:max-w-3xl" :id="`window-${icon}`"
-        :style="getWindowStyle(icon)" @click="bringToFront(icon)">
-        <div
-          class="flex md:max-h-[85vh] flex-col bg-white border border-gray-200 rounded-t-2xl md:rounded-3xl shadow-2xl w-full h-full">
-          <!-- Window Header -->
-          <div class="flex items-center justify-between py-2 px-4 rounded-t-3xl md:bg-gray-50 shadow-sm select-none"
-            @mousedown="e => startDrag(e, icon)" @touchstart="e => startDrag(e, icon)">
-            <!-- Icon -->
-            <i :class="['fas', icon, 'ml-1 text-lg font-bold text-gray-700 invisible md:visible']"></i>
-            <!-- Title -->
-            <span class="font-bold text-lg tracking-wide truncate text-gray-700">
-              {{ title(icon) }}
-            </span>
-            <!-- Close Button -->
-            <button
-              class="ml-2 md:bg-gray-200 hover:bg-red-400 hover:text-white cursor-pointer rounded-full w-8 h-8 flex items-center justify-center md:shadow focus:outline-none pointer-events-auto"
-              @click.stop="() => closeWindow(icon)">
-              <span :class="['font-bold', windowWidth < 768 ? 'fa fa-chevron-down' : 'fa fa-xmark']"></span>
-            </button>
-          </div>
-          <div class="flex flex-col items-center flex-grow overflow-auto bg-white rounded-b-3xl 
+    <div v-for="icon in openWindows" :key="icon" class="fixed z-50 w-[100vw] md:max-w-3xl" :id="`window-${icon}`"
+      :style="getWindowStyle(icon)" @click="bringToFront(icon)">
+      <div
+        class="flex md:max-h-[85vh] flex-col bg-white border border-gray-200 rounded-t-2xl md:rounded-3xl shadow-2xl w-full h-full">
+        <!-- Window Header -->
+        <div class="flex items-center justify-between py-2 px-4 rounded-t-3xl md:bg-gray-50 shadow-sm select-none"
+          @mousedown="e => startDrag(e, icon)" @touchstart="e => startDrag(e, icon)">
+          <!-- Icon -->
+          <i :class="['fas', icon, 'ml-1 text-lg font-bold text-gray-700 invisible md:visible']"></i>
+          <!-- Title -->
+          <span class="font-bold text-lg tracking-wide truncate text-gray-700">
+            {{ title(icon) }}
+          </span>
+          <!-- Close Button -->
+          <button
+            class="ml-2 md:bg-gray-200 hover:bg-red-400 hover:text-white cursor-pointer rounded-full w-8 h-8 flex items-center justify-center md:shadow focus:outline-none pointer-events-auto"
+            @click.stop="() => closeWindow(icon)">
+            <span :class="['font-bold', windowWidth < 768 ? 'fa fa-chevron-down' : 'fa fa-xmark']"></span>
+          </button>
+        </div>
+        <div class="flex flex-col items-center flex-grow overflow-auto bg-white rounded-b-3xl 
             [&::-webkit-scrollbar]:w-1
             [&::-webkit-scrollbar-thumb]:rounded-full
             [&::-webkit-scrollbar-thumb]:bg-gray-300">
-            <!-- Window Content -->
-            <component :is="{
-              'fa-user': 'AboutWindow',
-              'fa-briefcase': 'SkillsWindow',
-              'fa-folder-open': 'ProjectsWindow',
-              'fa-envelope': 'ContactWindow'
-            }[icon]" />
-          </div>
+          <!-- Window Content -->
+          <component :is="{
+            'fa-user': 'AboutWindow',
+            'fa-briefcase': 'SkillsWindow',
+            'fa-folder-open': 'ProjectsWindow',
+            'fa-envelope': 'ContactWindow'
+          }[icon]" />
         </div>
       </div>
-    </Transition-group>
+    </div>
   </div>
 </template>
 
@@ -325,23 +323,6 @@ export default {
 
   50% {
     opacity: 0;
-  }
-}
-
-/* Slide animation for mobile */
-@media (max-width: 767px) {
-
-  .slide-window-enter-active,
-  .slide-window-leave-active {
-    transition: transform 1s ease-out;
-  }
-
-  .slide-window-enter-from {
-    transform: translateY(100vh);
-  }
-
-  .slide-window-leave-to {
-    transform: translateY(-100vh);
   }
 }
 </style>
