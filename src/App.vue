@@ -209,7 +209,7 @@ export default {
 
 
 <template>
-  <div class="flex flex-col h-screen justify-center items-center prevent-select">
+  <div class="flex flex-col h-dvh justify-center items-center prevent-select">
     <!-- Top bar layout -->
     <div class="p-4 border border-gray-200 shadow-2xl bg-white w-full h-12 flex justify-between items-center">
       <!-- <span class="font-bold text-lg">Petaling Jaya, Malaysia</span> -->
