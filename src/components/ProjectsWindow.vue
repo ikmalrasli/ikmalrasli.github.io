@@ -1,6 +1,6 @@
 <template>
-  <div class="max-w-5xl mx-auto p-4 ">
-    <div class="flex flex-wrap gap-4 mb-4 justify-center overflow-x-auto">
+  <div class="max-w-5xl mx-auto p-2 md:p-4 text-sm md:text-base ">
+    <div class="flex flex-wrap gap-4 mb-4 justify-center overflow-x-auto text-sm md:text-base">
       <button @click="selectedCategory = 'all'"
         :class="{ 'bg-blue-500 text-white': selectedCategory === 'all', 'bg-gray-200 text-gray-700 hover:cursor-pointer hover:bg-blue-100 hover:text-blue-700': selectedCategory !== 'all' }"
         class="rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-200 ">
@@ -23,7 +23,7 @@
       </button>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 text-sm md:text-base">
       <router-link v-for="project in filteredProjects" :key="project.id"
         :to="{ name: 'ProjectDetails', params: { id: project.id } }"
         class="group bg-white rounded-2xl shadow-xl border border-gray-200 hover:shadow-2xl transition flex flex-col overflow-hidden cursor-pointer">
@@ -32,16 +32,17 @@
         </div>
         <div class="flex-1 flex flex-col p-4">
           <div class="flex items-center justify-between mb-2">
-            <h3 class="text-lg font-bold transition-colors duration-200 group-hover:text-blue-600">{{ project.title }}
+            <h3 class="font-bold text-base md:text-lg transition-colors duration-200 group-hover:text-blue-600">{{
+              project.title }}
             </h3>
           </div>
-          <p class="text-sm text-gray-600 mb-4 flex-1">
+          <p class="text-gray-600 mb-4 flex-1">
             {{ project.description }}
           </p>
           <div class="flex flex-wrap gap-2 mb-2">
             <span v-for="tag in project.tags" :key="tag"
               class="px-2 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-semibold transition-colors duration-200 group-hover:bg-blue-100 group-hover:text-blue-700">{{
-              tag }}</span>
+                tag }}</span>
           </div>
         </div>
       </router-link>

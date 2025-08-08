@@ -287,7 +287,7 @@ export default {
           <!-- Icon -->
           <i :class="['fas', icon, 'ml-1 text-lg font-bold text-gray-700 invisible md:visible']"></i>
           <!-- Title -->
-          <span class="font-bold text-lg tracking-wide truncate text-gray-700">
+          <span class="font-bold md:text-lg tracking-wide truncate text-gray-700">
             {{ title(icon) }}
           </span>
           <!-- Close Button -->

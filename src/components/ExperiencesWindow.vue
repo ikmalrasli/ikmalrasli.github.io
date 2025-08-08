@@ -1,23 +1,23 @@
 <template>
-  <div class="relative max-w-3xl p-4  mx-auto">
-    <div class="space-y-4">
+  <div class="relative max-w-3xl p-2 md:p-4 mx-auto text-sm md:text-base">
+    <div class="space-y-2 md:space-y-4">
       <div v-for="(experience, idx) in experiences" :key="idx" class="relative flex" @mouseenter="hoveredCard = idx"
         @mouseleave="hoveredCard = null">
         <!-- Card -->
         <div
-          class="cursor-pointer flex flex-col md:flex-row gap-4 bg-white rounded-2xl shadow-xl border border-gray-200 p-6 hover:shadow-2xl transition items-center md:items-start"
+          class="cursor-pointer flex flex-col md:flex-row gap-4 bg-white rounded-2xl shadow-xl border border-gray-200 p-6 hover:shadow-2xl transition items-center md:items-start text-sm md:text-base"
           @click="openLink(experience.link)">
           <img :src="experience.image" :alt="experience.position" class="w-28 h-28 object-cover rounded-full" />
           <div>
             <div class="flex flex-row items-center justify-between">
-              <h2 class="font-bold" :class="hoveredCard === idx ? 'text-blue-600' : ''">{{
+              <h2 class="font-bold text-base md:text-lg" :class="hoveredCard === idx ? 'text-blue-600' : ''">{{
                 experience.position }} | {{ experience.company }}
               </h2>
               <i class="fa fa-arrow-right mr-4 pl-4 transition-transform duration-200"
                 :class="hoveredCard === idx ? 'translate-x-2 text-blue-600' : ''"></i>
             </div>
 
-            <p class="text-xs font-semibold mb-1">{{ experience.timeframe }}</p>
+            <p class="text-xs md:text-sm font-semibold mb-1">{{ experience.timeframe }}</p>
             <ul v-if="Array.isArray(experience.description)"
               class="list-disc pl-5 text-gray-600 text-sm md:text-base leading-relaxed space-y-1">
               <li v-for="(item, i) in experience.description" :key="i">{{ item }}</li>
