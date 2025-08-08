@@ -5,7 +5,7 @@
         @mouseleave="hoveredCard = null">
         <!-- Card -->
         <div
-          class="cursor-pointer flex flex-col md:flex-row gap-4 bg-white rounded-2xl shadow-xl border border-gray-200 p-6 hover:shadow-2xl transition"
+          class="cursor-pointer flex flex-col md:flex-row gap-4 bg-white rounded-2xl shadow-xl border border-gray-200 p-6 hover:shadow-2xl transition items-center md:items-start"
           @click="openLink(experience.link)">
           <img :src="experience.image" :alt="experience.position" class="w-28 h-28 object-cover rounded-full" />
           <div>

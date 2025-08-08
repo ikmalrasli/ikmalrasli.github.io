@@ -261,7 +261,7 @@ export default {
     <div v-for="icon in openWindows" :key="icon" class="fixed z-50 w-[100vw] md:max-w-3xl" :id="`window-${icon}`"
       :style="getWindowStyle(icon)" @click="bringToFront(icon)">
       <div
-        class="flex md:max-h-[85vh] flex-col bg-white border border-gray-200 rounded-t-2xl md:rounded-3xl shadow-2xl w-full h-full">
+        class="flex md:max-h-[85vh] flex-col bg-white border border-gray-200 rounded-t-2xl md:rounded-3xl shadow-2xl w-full">
         <!-- Window Header -->
         <div class="flex items-center justify-between py-2 px-4 rounded-t-3xl md:bg-gray-50 shadow-sm select-none"
           @mousedown="e => startDrag(e, icon)" @touchstart="e => startDrag(e, icon)">
@@ -278,7 +278,7 @@ export default {
             <span :class="['font-bold', windowWidth < 768 ? 'fa fa-chevron-down' : 'fa fa-xmark']"></span>
           </button>
         </div>
-        <div class="flex flex-col items-center flex-grow overflow-auto bg-white rounded-b-3xl 
+        <div class="flex flex-col items-center flex-grow overflow-auto bg-white rounded-b-3xl safe-area-bottom
             [&::-webkit-scrollbar]:w-1
             [&::-webkit-scrollbar-thumb]:rounded-full
             [&::-webkit-scrollbar-thumb]:bg-gray-300">
@@ -296,6 +296,11 @@ export default {
 </template>
 
 <style>
+/* For iOS Safari safe area padding */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
 /* Blinking visible/invisible typing cursor */
 .typing-cursor-blink {
   animation: blink-opacity 1s steps(1) infinite;
