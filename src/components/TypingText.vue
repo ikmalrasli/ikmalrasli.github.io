@@ -1,5 +1,5 @@
 <template>
-  <span class="text-3xl md:text-5xl font-bold font-mono text-gray-700 text-shadow-md/10">
+  <span class="text-2xl md:text-5xl font-bold font-mono text-gray-700 text-shadow-md/10">
     {{ displayText }}
     <span class="text-shadow-md/10" :class="highlightClass">{{ displayHighlight }}</span>
     <span class="typing-cursor-blink">|</span>
