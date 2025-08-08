@@ -4,7 +4,27 @@ import ProjectsWindow from './components/ProjectsWindow.vue'
 import SkillsWindow from './components/ExperiencesWindow.vue'
 import ContactWindow from './components/ContactWindow.vue'
 import TypingText from './components/TypingText.vue'
-import { Motion } from '@motionone/vue'
+
+// Simple debounce helper
+function debounce(fn, delay) {
+  let timeout
+  return (...args) => {
+    clearTimeout(timeout)
+    timeout = setTimeout(() => fn(...args), delay)
+  }
+}
+
+// Simple throttle helper
+function throttle(fn, limit) {
+  let inThrottle
+  return (...args) => {
+    if (!inThrottle) {
+      fn(...args)
+      inThrottle = true
+      setTimeout(() => (inThrottle = false), limit)
+    }
+  }
+}
 
 export default {
   components: {
@@ -12,8 +32,7 @@ export default {
     ProjectsWindow,
     SkillsWindow,
     ContactWindow,
-    TypingText,
-    Motion
+    TypingText
   },
   data() {
     return {
@@ -24,196 +43,170 @@ export default {
       windowStates: {},
       topZIndex: 1,
       windowWidth: window.innerWidth,
-      dockHovered: false,
+      dockHovered: false
     }
   },
   computed: {
-    windowComponent() {
-      switch (this.openWindow) {
-        case 'fa-regular fa-user': return 'AboutWindow'
-        case 'fa-folder-open': return 'ProjectsWindow'
-        case 'fa-briefcase': return 'SkillsWindow'
-        case 'fa-envelope': return 'ContactWindow'
-        default: return null
-      }
+    isMobile() {
+      return this.windowWidth < 768
     }
   },
   methods: {
     updateTime() {
-      const now = new Date();
-      this.currentTime = now.toLocaleTimeString().toUpperCase();
-
-      const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-      const dayName = daysOfWeek[now.getDay()];
-
-      const year = now.getFullYear();
-      const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
-      const day = String(now.getDate()).padStart(2, '0');
-
-      const formattedDate = `${year}-${month}-${day} (${dayName})`;
-      this.currentDate = formattedDate;
+      const now = new Date()
+      this.currentTime = now.toLocaleTimeString().toUpperCase()
+      const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+      const dayName = daysOfWeek[now.getDay()]
+      const year = now.getFullYear()
+      const month = String(now.getMonth() + 1).padStart(2, '0')
+      const day = String(now.getDate()).padStart(2, '0')
+      this.currentDate = `${year}-${month}-${day} (${dayName})`
     },
     openIconWindow(icon) {
       if (!this.openWindows.includes(icon)) {
-        // Calculate offset for new window
-        const offsetStep = 32;
-        // Place the first window higher by using a negative baseOffset
-        const baseOffset = -96;
-        const openCount = this.openWindows.length;
-        this.openWindows.push(icon);
+        const offsetStep = 32
+        const baseOffset = -96
+        const openCount = this.openWindows.length
+        this.openWindows.push(icon)
+
         this.$nextTick(() => {
-          const win = document.getElementById(`window-${icon}`);
-          if (win) {
-            const width = window.innerWidth * 0.5;
-            const height = window.innerHeight * 0.5;
-            // Offset each new window by offsetStep px from the previous
-            const x = (window.innerWidth - width) / 2 + baseOffset + openCount * offsetStep;
-            const y = Math.max((window.innerHeight - height) / 3, 48) + baseOffset + openCount * offsetStep;
+          const width = window.innerWidth * 0.5
+          const height = window.innerHeight * 0.5
+          const x = (window.innerWidth - width) / 2 + baseOffset + openCount * offsetStep
+          const yDesktop = Math.max((window.innerHeight - height) / 3, 48) + baseOffset + openCount * offsetStep
 
-            let initialY = y; // Default desktop y position
-
-            // Add this condition to set the initial Y for mobile
-            if (this.windowWidth < 768) {
-              initialY = window.innerHeight; // Start off-screen at the bottom
-            }
-
-            this.windowStates[icon] = {
-              x: x,
-              y: initialY,
-              dragging: false,
-              dragOffset: { x: 0, y: 0 },
-              zIndex: this.topZIndex++,
-              maximized: this.windowWidth < 768 // Automatically maximize on mobile
-            };
+          this.windowStates[icon] = {
+            x: x,
+            y: this.isMobile ? window.innerHeight : yDesktop,
+            dragging: false,
+            dragOffset: { x: 0, y: 0 },
+            zIndex: this.topZIndex++,
+            maximized: this.isMobile
           }
-        });
+
+          if (this.isMobile) {
+            const el = document.getElementById(`window-${icon}`)
+            if (el) {
+              el.classList.add('slide-up')
+              setTimeout(() => el.classList.remove('slide-up'), 400) // remove after animation
+            }
+          }
+        })
       } else {
-        this.bringToFront(icon);
+        this.bringToFront(icon)
       }
     },
     bringToFront(icon) {
       if (this.windowStates[icon]) {
-        this.windowStates[icon].zIndex = this.topZIndex++;
+        this.windowStates[icon].zIndex = this.topZIndex++
       }
     },
     closeWindow(icon) {
-      this.openWindows = this.openWindows.filter(win => win !== icon);
-      delete this.windowStates[icon];
-
-      // Bring the new front-most window to front
+      this.openWindows = this.openWindows.filter(win => win !== icon)
+      delete this.windowStates[icon]
       if (this.openWindows.length > 0) {
-        const frontIcon = this.openWindows[this.openWindows.length - 1];
-        if (this.windowStates[frontIcon]) {
-          this.windowStates[frontIcon].zIndex = this.topZIndex++;
-        }
+        this.bringToFront(this.openWindows[this.openWindows.length - 1])
       } else {
-        this.dockHovered = false;
+        this.dockHovered = false
       }
     },
     startDrag(e, icon) {
-      // Only allow dragging on desktop
-      if (this.windowWidth < 768) return;
+      if (this.isMobile) return
+      const state = this.windowStates[icon]
+      if (!state) return
+      this.bringToFront(icon)
+      state.dragging = true
 
-      const state = this.windowStates[icon];
-      if (!state) return;
+      const clientX = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX
+      const clientY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY
+      state.dragOffset = { x: clientX - state.x, y: clientY - state.y }
 
-      this.bringToFront(icon);
+      const moveHandler = throttle(ev => this.onDrag(ev, icon), 16)
+      const stopHandler = () => this.stopDrag(icon, moveHandler, stopHandler)
 
-      state.dragging = true;
-      const clientX = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX;
-      const clientY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
-      state.dragOffset = {
-        x: clientX - state.x,
-        y: clientY - state.y
-      };
-
-      const moveHandler = ev => this.onDrag(ev, icon);
-      const stopHandler = () => this.stopDrag(icon, moveHandler, stopHandler);
-
-      window.addEventListener('mousemove', moveHandler);
-      window.addEventListener('mouseup', stopHandler);
-      window.addEventListener('touchmove', moveHandler, { passive: false });
-      window.addEventListener('touchend', stopHandler);
+      window.addEventListener('mousemove', moveHandler)
+      window.addEventListener('mouseup', stopHandler)
+      window.addEventListener('touchmove', moveHandler, { passive: false })
+      window.addEventListener('touchend', stopHandler)
     },
     onDrag(e, icon) {
-      const state = this.windowStates[icon];
-      if (!state || !state.dragging) return;
-      if (e.type.startsWith('touch')) e.preventDefault();
-
-      const clientX = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX;
-      const clientY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
-      state.x = clientX - state.dragOffset.x;
-      state.y = Math.max(clientY - state.dragOffset.y, 48);
+      const state = this.windowStates[icon]
+      if (!state || !state.dragging) return
+      if (e.type.startsWith('touch')) e.preventDefault()
+      const clientX = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX
+      const clientY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY
+      state.x = Math.max(0, clientX - state.dragOffset.x)
+      state.y = Math.max(48, clientY - state.dragOffset.y)
     },
     stopDrag(icon, moveHandler, stopHandler) {
-      const state = this.windowStates[icon];
-      if (state) state.dragging = false;
-
-      window.removeEventListener('mousemove', moveHandler);
-      window.removeEventListener('mouseup', stopHandler);
-      window.removeEventListener('touchmove', moveHandler);
-      window.removeEventListener('touchend', stopHandler);
+      const state = this.windowStates[icon]
+      if (state) state.dragging = false
+      window.removeEventListener('mousemove', moveHandler)
+      window.removeEventListener('mouseup', stopHandler)
+      window.removeEventListener('touchmove', moveHandler)
+      window.removeEventListener('touchend', stopHandler)
     },
     getWindowStyle(icon) {
-      const state = this.windowStates[icon] || {};
-      const topBarHeight = 48;
-      const dockHeight = 148;
-      const availableHeight = `calc(100vh - ${topBarHeight}px - ${dockHeight}px)`;
+      const state = this.windowStates[icon] || {}
+      const topBarHeight = 48
 
-      // Always maximize on mobile
-      if (this.windowWidth < 768) {
-        this.windowStates[icon] = {
-          ...this.windowStates[icon],
-        };
+      if (this.isMobile) {
         return {
           left: 0,
           top: `${topBarHeight}px`,
           width: '100vw',
           height: `calc(100vh - ${topBarHeight}px)`,
           zIndex: state.zIndex || 1
-        };
+        }
       }
-      else {
-        const x = state.x || 0;
-        const y = Math.max(state.y || topBarHeight, topBarHeight);
-        return {
-          left: `${x}px`,
-          top: `${y}px`,
-          width: '50vw',
-          maxHeight: '50vh',
-          height: 'min-content',
-          zIndex: state.zIndex || 1
-        };
+      return {
+        left: `${Math.min(state.x || 0, window.innerWidth - 100)}px`,
+        top: `${Math.max(state.y || topBarHeight, topBarHeight)}px`,
+        width: '50vw',
+        maxHeight: '50vh',
+        height: 'min-content',
+        zIndex: state.zIndex || 1
       }
     },
     title(icon) {
-      switch (icon) {
-        case 'fa-user': return this.windowWidth < 768 ? 'About' : 'About_Me';
-        case 'fa-briefcase': return this.windowWidth < 768 ? 'Experience' : 'My_Experience'
-        case 'fa-folder-open': return this.windowWidth < 768 ? 'Projects' : 'My_Projects'
-        case 'fa-envelope': return this.windowWidth < 768 ? 'Contact' : 'Contact_Me'
-        default: return null
+      const titles = {
+        'fa-user': this.isMobile ? 'About' : 'About_Me',
+        'fa-briefcase': this.isMobile ? 'Experience' : 'My_Experience',
+        'fa-folder-open': this.isMobile ? 'Projects' : 'My_Projects',
+        'fa-envelope': this.isMobile ? 'Contact' : 'Contact_Me'
       }
+      return titles[icon] || ''
     },
     handleResize() {
-      this.windowWidth = window.innerWidth;
+      this.windowWidth = window.innerWidth
+      // Adjust positions if switching from mobile <-> desktop
+      this.openWindows.forEach(icon => {
+        if (this.isMobile) {
+          this.windowStates[icon].maximized = true
+        } else {
+          this.windowStates[icon].maximized = false
+        }
+      })
     }
   },
   mounted() {
-    this.updateTime();
-    this.interval = setInterval(this.updateTime, 1000);
-    this.startTypingAnimation();
-    // Add window resize listener
-    window.addEventListener('resize', this.handleResize);
+    this.updateTime()
+    this.interval = setInterval(this.updateTime, 1000)
+
+    // Wrap in debounce here so `this` is bound correctly
+    const debouncedResize = debounce(this.handleResize.bind(this), 150)
+    window.addEventListener('resize', debouncedResize)
+
+    // Keep reference so we can remove it later
+    this._debouncedResize = debouncedResize
   },
-  beforeDestroy() {
-    clearInterval(this.interval);
-    this.stopDrag();
-    // Remove window resize listener
-    window.removeEventListener('resize', this.handleResize);
+  beforeUnmount() {
+    clearInterval(this.interval)
+    window.removeEventListener('resize', this._debouncedResize)
   }
 }
 </script>
+
 
 <template>
   <div class="flex flex-col h-screen justify-center items-center prevent-select">
@@ -318,5 +311,21 @@ export default {
   50% {
     opacity: 0;
   }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slide-up {
+  animation: slideUp 0.4s ease-out forwards;
 }
 </style>
