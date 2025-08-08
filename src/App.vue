@@ -261,7 +261,7 @@ export default {
     <div v-for="icon in openWindows" :key="icon" class="fixed z-50 w-[100vw] md:max-w-3xl" :id="`window-${icon}`"
       :style="getWindowStyle(icon)" @click="bringToFront(icon)">
       <div
-        class="flex md:max-h-[85vh] flex-col bg-white border border-gray-200 rounded-t-2xl md:rounded-3xl shadow-2xl w-full">
+        class="flex md:max-h-[85vh] flex-col bg-white border border-gray-200 rounded-t-2xl md:rounded-3xl shadow-2xl w-full h-full">
         <!-- Window Header -->
         <div class="flex items-center justify-between py-2 px-4 rounded-t-3xl md:bg-gray-50 shadow-sm select-none"
           @mousedown="e => startDrag(e, icon)" @touchstart="e => startDrag(e, icon)">
