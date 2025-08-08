@@ -102,6 +102,22 @@ export default {
       }
     },
     closeWindow(icon) {
+      if (this.isMobile) {
+        const el = document.getElementById(`window-${icon}`)
+        if (el) {
+          el.classList.add('slide-down')
+          setTimeout(() => {
+            this.openWindows = this.openWindows.filter(win => win !== icon)
+            delete this.windowStates[icon]
+            if (this.openWindows.length > 0) {
+              this.bringToFront(this.openWindows[this.openWindows.length - 1])
+            } else {
+              this.dockHovered = false
+            }
+          }, 200)
+          return
+        }
+      }
       this.openWindows = this.openWindows.filter(win => win !== icon)
       delete this.windowStates[icon]
       if (this.openWindows.length > 0) {
@@ -148,17 +164,16 @@ export default {
     },
     getWindowStyle(icon) {
       const state = this.windowStates[icon] || {}
-      const topBarHeight = 48
-
       if (this.isMobile) {
         return {
           left: 0,
-          top: `${topBarHeight}px`,
+          top: 0,
           width: '100vw',
-          height: `calc(100vh - ${topBarHeight}px)`,
+          height: '100vh',
           zIndex: state.zIndex || 1
         }
       }
+      const topBarHeight = 48
       return {
         left: `${Math.min(state.x || 0, window.innerWidth - 100)}px`,
         top: `${Math.max(state.y || topBarHeight, topBarHeight)}px`,
@@ -258,10 +273,14 @@ export default {
     </div>
 
     <!-- Popup Windows -->
-    <div v-for="icon in openWindows" :key="icon" class="fixed z-50 w-[100vw] md:max-w-3xl" :id="`window-${icon}`"
-      :style="getWindowStyle(icon)" @click="bringToFront(icon)">
-      <div
-        class="flex md:max-h-[85vh] flex-col bg-white border border-gray-200 rounded-t-2xl md:rounded-3xl shadow-2xl w-full h-full">
+    <div v-for="icon in openWindows" :key="icon" :class="[
+      'fixed z-50',
+      isMobile ? 'w-screen h-screen top-0 left-0 rounded-none' : 'w-[100vw] md:max-w-3xl',
+    ]" :id="`window-${icon}`" :style="getWindowStyle(icon)" @click="bringToFront(icon)">
+      <div :class="[
+        'flex flex-col bg-white border border-gray-200 shadow-2xl w-full h-full',
+        isMobile ? 'rounded-none max-h-none' : 'md:max-h-[85vh] rounded-t-2xl md:rounded-3xl'
+      ]">
         <!-- Window Header -->
         <div class="flex items-center justify-between py-2 px-4 rounded-t-3xl md:bg-gray-50 shadow-sm select-none"
           @mousedown="e => startDrag(e, icon)" @touchstart="e => startDrag(e, icon)">
@@ -321,7 +340,7 @@ export default {
 @keyframes slideUp {
   from {
     transform: translateY(100%);
-    opacity: 0;
+    opacity: 1;
   }
 
   to {
@@ -330,7 +349,23 @@ export default {
   }
 }
 
+@keyframes slideDown {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateY(100%);
+    opacity: 1;
+  }
+}
+
 .slide-up {
-  animation: slideUp 0.4s ease-out forwards;
+  animation: slideUp 0.2s ease-out forwards;
+}
+
+.slide-down {
+  animation: slideDown 0.2s ease-in forwards;
 }
 </style>
