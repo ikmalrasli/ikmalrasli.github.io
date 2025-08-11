@@ -169,7 +169,7 @@ export default {
           left: 0,
           top: 0,
           width: '100vw',
-          height: '100vh',
+          height: '100dvh',
           zIndex: state.zIndex || 1
         }
       }
@@ -178,7 +178,7 @@ export default {
         left: `${Math.min(state.x || 0, window.innerWidth - 100)}px`,
         top: `${Math.max(state.y || topBarHeight, topBarHeight)}px`,
         width: '50vw',
-        maxHeight: '50vh',
+        maxHeight: '50dvh',
         height: 'min-content',
         zIndex: state.zIndex || 1
       }
