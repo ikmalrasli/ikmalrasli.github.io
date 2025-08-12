@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-3xl mx-auto p-2 md:p-4 md:p-8 text-sm md:text-base">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
       <!-- Contact Info Card -->
       <div
         class="bg-white rounded-2xl shadow-xl border border-gray-200 p-6 flex flex-col justify-between text-sm md:text-base">
