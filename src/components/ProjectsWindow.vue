@@ -1,30 +1,30 @@
 <template>
   <div class="max-w-5xl mx-auto p-2 md:p-4 text-sm md:text-base ">
-    <div class="flex flex-wrap gap-4 mb-4 justify-center overflow-x-auto text-sm md:text-base">
+    <div class="flex flex-nowrap gap-2 mb-4 justify-center overflow-x-auto w-full text-xs">
       <button @click="selectedCategory = 'all'"
         :class="{ 'bg-blue-500 text-white': selectedCategory === 'all', 'bg-gray-200 text-gray-700 hover:cursor-pointer hover:bg-blue-100 hover:text-blue-700': selectedCategory !== 'all' }"
-        class="rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-200 ">
+        class="rounded-full px-4 py-2 font-semibold transition-colors duration-200">
         All
       </button>
       <button @click="selectedCategory = 'control system'"
         :class="{ 'bg-blue-500 text-white': selectedCategory === 'control system', 'bg-gray-200 text-gray-700 hover:cursor-pointer hover:bg-blue-100 hover:text-blue-700': selectedCategory !== 'control system' }"
-        class="rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-200 ">
+        class="rounded-full px-4 py-2 font-semibold transition-colors duration-200">
         Control System
       </button>
       <button @click="selectedCategory = 'software development'"
         :class="{ 'bg-blue-500 text-white': selectedCategory === 'software development', 'bg-gray-200 text-gray-700 hover:cursor-pointer hover:bg-blue-100 hover:text-blue-700': selectedCategory !== 'software development' }"
-        class="rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-200">
+        class="rounded-full px-4 py-2 font-semibold transition-colors duration-200">
         Software Development
       </button>
       <button @click="selectedCategory = 'university'"
         :class="{ 'bg-blue-500 text-white': selectedCategory === 'university', 'bg-gray-200 text-gray-700 hover:cursor-pointer hover:bg-blue-100 hover:text-blue-700': selectedCategory !== 'university' }"
-        class="rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-200">
+        class="rounded-full px-4 py-2 font-semibold transition-colors duration-200">
         University
       </button>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 text-sm md:text-base">
-      <router-link v-for="project in filteredProjects" :key="project.id"
+      <div v-for="project in filteredProjects" :key="project.id"
         :to="{ name: 'ProjectDetails', params: { id: project.id } }"
         class="group bg-white rounded-2xl shadow-xl border border-gray-200 hover:shadow-2xl transition flex flex-col overflow-hidden cursor-pointer">
         <div class="relative aspect-video flex items-center justify-center border-b border-gray-100">
@@ -45,7 +45,7 @@
                 tag }}</span>
           </div>
         </div>
-      </router-link>
+      </div>
     </div>
   </div>
 </template>
