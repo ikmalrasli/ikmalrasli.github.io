@@ -178,8 +178,7 @@ export default {
         left: `${Math.min(state.x || 0, window.innerWidth - 100)}px`,
         top: `${Math.max(state.y || topBarHeight, topBarHeight)}px`,
         width: '50vw',
-        maxHeight: '50dvh',
-        height: 'min-content',
+        height: '80dvh',
         zIndex: state.zIndex || 1
       }
     },
