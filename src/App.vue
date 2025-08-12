@@ -278,7 +278,7 @@ export default {
       isMobile ? 'w-screen h-dvh top-0 left-0 rounded-none' : 'w-[100vw] md:max-w-3xl',
     ]" :id="`window-${icon}`" :style="getWindowStyle(icon)" @click="bringToFront(icon)">
       <div :class="[
-        'flex flex-col bg-white border border-gray-200 shadow-2xl w-full h-full',
+        'grid grid-rows-[auto_1fr] bg-white border border-gray-200 shadow-2xl w-full h-full',
         isMobile ? 'rounded-none max-h-none' : 'md:max-h-[85vh] rounded-t-2xl md:rounded-3xl'
       ]">
         <!-- Window Header -->
@@ -297,7 +297,7 @@ export default {
             <span :class="['font-bold', windowWidth < 768 ? 'fa fa-chevron-down' : 'fa fa-xmark']"></span>
           </button>
         </div>
-        <div class="flex flex-col items-center flex-grow overflow-y-auto bg-white rounded-b-3xl min-h-0
+        <div class="flex flex-col items-center overflow-y-auto bg-white rounded-b-3xl
             [&::-webkit-scrollbar]:w-1
             [&::-webkit-scrollbar-thumb]:rounded-full
             [&::-webkit-scrollbar-thumb]:bg-gray-300">
