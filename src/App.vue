@@ -1,7 +1,7 @@
 <script>
 import AboutWindow from './components/AboutWindow.vue'
 import ProjectsWindow from './components/ProjectsWindow.vue'
-import SkillsWindow from './components/ExperiencesWindow.vue'
+import ExperiencesWindow from './components/ExperiencesWindow.vue'
 import ContactWindow from './components/ContactWindow.vue'
 import TypingText from './components/TypingText.vue'
 
@@ -30,7 +30,7 @@ export default {
   components: {
     AboutWindow,
     ProjectsWindow,
-    SkillsWindow,
+    ExperiencesWindow,
     ContactWindow,
     TypingText
   },
@@ -298,13 +298,14 @@ export default {
           </button>
         </div>
         <div class="flex flex-col items-center flex-grow overflow-y-auto bg-white rounded-b-3xl
+            min-h-32 bg-red-100
             [&::-webkit-scrollbar]:w-1
             [&::-webkit-scrollbar-thumb]:rounded-full
             [&::-webkit-scrollbar-thumb]:bg-gray-300">
           <!-- Window Content -->
           <component :is="{
             'fa-user': 'AboutWindow',
-            'fa-briefcase': 'SkillsWindow',
+            'fa-briefcase': 'ExperiencesWindow',
             'fa-folder-open': 'ProjectsWindow',
             'fa-envelope': 'ContactWindow'
           }[icon]" />
@@ -315,11 +316,6 @@ export default {
 </template>
 
 <style>
-/* For iOS Safari safe area padding */
-.safe-area-bottom {
-  padding-bottom: env(safe-area-inset-bottom);
-}
-
 /* Blinking visible/invisible typing cursor */
 .typing-cursor-blink {
   animation: blink-opacity 1s steps(1) infinite;
