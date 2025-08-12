@@ -226,7 +226,8 @@ export default {
 <template>
   <div class="flex flex-col h-dvh justify-center items-center prevent-select">
     <!-- Top bar layout -->
-    <div class="p-4 h-6 md:h-12 text-xs md:text-base font-bold md:font-normal border border-gray-200 shadow-2xl bg-white w-full flex justify-between items-center">
+    <div
+      class="p-4 h-6 md:h-12 text-xs md:text-base font-bold md:font-normal border border-gray-200 shadow-2xl bg-white w-full flex justify-between items-center">
       <!-- <span class="font-bold text-lg">Petaling Jaya, Malaysia</span> -->
       <span class="font-bold text-gray-700">Ikmal_OS</span>
       <span class="font-bold text-gray-700"><span class="hidden md:inline">{{ currentDate }}</span> {{
@@ -297,7 +298,7 @@ export default {
             <span :class="['font-bold', windowWidth < 768 ? 'fa fa-chevron-down' : 'fa fa-xmark']"></span>
           </button>
         </div>
-        <div class="flex flex-col items-center overflow-y-auto bg-white rounded-b-3xl min-h-min
+        <div class="flex flex-col items-center overflow-y-auto bg-white rounded-b-3xl h-full
             [&::-webkit-scrollbar]:w-1
             [&::-webkit-scrollbar-thumb]:rounded-full
             [&::-webkit-scrollbar-thumb]:bg-gray-300">
