@@ -298,7 +298,7 @@ export default {
             <span :class="['font-bold', windowWidth < 768 ? 'fa fa-chevron-down' : 'fa fa-xmark']"></span>
           </button>
         </div>
-        <div class="flex flex-col items-center overflow-y-auto bg-white rounded-b-3xl h-full
+        <div class="flex flex-col items-center overflow-y-auto bg-white rounded-b-3xl flex-grow h-full
             [&::-webkit-scrollbar]:w-1
             [&::-webkit-scrollbar-thumb]:rounded-full
             [&::-webkit-scrollbar-thumb]:bg-gray-300">
