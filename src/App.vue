@@ -41,7 +41,7 @@ export default {
       currentDate: '',
       openWindows: [],
       windowStates: {},
-      topZIndex: 1,
+      topZIndex: 50,
       windowWidth: window.innerWidth,
       dockHovered: false
     }
@@ -91,7 +91,9 @@ export default {
               setTimeout(() => el.classList.remove('slide-up'), 400) // remove after animation
             }
           }
+      
         })
+        
       } else {
         this.bringToFront(icon)
       }
@@ -243,7 +245,7 @@ export default {
     <!-- Dock -->
     <div v-if="windowWidth >= 768 || openWindows.length == 0"
       class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full flex justify-center transition-transform hover:scale-105"
-      :class="dockHovered ? 'z-100' : 'z-0'" @mouseenter="dockHovered = true" @mouseleave="dockHovered = false"
+      :class="dockHovered ? 'z-10' : 'z-0'" @mouseenter="dockHovered = true" @mouseleave="dockHovered = false"
       @focusin="dockHovered = true" @focusout="dockHovered = false">
       <div class="relative h-6 flex items-end">
         <div

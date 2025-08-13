@@ -1,6 +1,6 @@
 <template>
-  <div class="max-w-3xl mx-auto p-2 md:p-4 md:p-8 text-sm md:text-base">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+  <div class="max-w-3xl mx-auto p-2 md:p-4 text-sm md:text-base">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
       <!-- Contact Info Card -->
       <div
         class="bg-white rounded-2xl shadow-xl border border-gray-200 p-6 flex flex-col justify-between text-sm md:text-base">
@@ -30,7 +30,7 @@
       <div class="bg-white rounded-2xl shadow-xl border border-gray-200 p-6 text-sm md:text-base">
         <div class="flex items-center justify-center relative gap-2 mb-4 text-gray-700 text-base md:text-lg">
           <i class="absolute left-0 top-1/2 transform -translate-y-1/2 fa fa-paper-plane text-2xl"></i>
-          <span class="font-bold">Send me a message!</span>
+          <span class="font-bold">Message me!</span>
         </div>
         <form class="space-y-4" @submit.prevent="submitForm">
           <div>
