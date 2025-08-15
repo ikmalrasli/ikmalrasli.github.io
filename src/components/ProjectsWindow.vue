@@ -24,8 +24,7 @@
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 text-sm md:text-base">
-      <div v-for="project in filteredProjects" :key="project.id"
-        :to="{ name: 'ProjectDetails', params: { id: project.id } }"
+      <div v-for="project in filteredProjects" :key="project.id" @click="openProjectLink(project.link)"
         class="group bg-white rounded-2xl shadow-xl border border-gray-200 hover:shadow-2xl transition flex flex-col overflow-hidden cursor-pointer">
         <div class="relative aspect-video flex items-center justify-center border-b border-gray-100">
           <img :src="project.image" :alt="project.title" class="object-cover w-full h-full rounded-t-2xl" />
@@ -58,33 +57,29 @@ export default {
   setup() {
     const selectedCategory = ref('all');
 
+    function openProjectLink(link) {
+      if (link && link !== '#') {
+        window.open(link, '_blank');
+      }
+    }
+
     const projects = [
       {
         id: 1,
         title: 'HVAC Systems PLC and HMI Upgrade for PCSB PMA Resak',
-        tag: '.PLC',
         category: 'control system',
         description: 'PLC and HMI upgrade for 8 HVAC systems, including program migration from Omron PLC to Allen Bradley PLC (CompactLogix).',
         image: new URL('../assets/projects/pcsb_resak_hvac.jpg', import.meta.url).href,
-        isNew: true,
-        codeLink: '#',
-        demoLink: '#',
-        fullDescription: 'PLC and HMI upgrade for 8 HVAC Systems, including additional EWS. Program migration from Omron PLC to Allen Bradley PLC (CompactLogix). Developed graphics for HMI (Panelview Plus 7 Standard). Performed FAT, SAT and commissioning for all 8 systems.',
-        photos: ['https://via.placeholder.com/600x400/0000FF/FFFFFF?text=HVAC+Photo+1', 'https://via.placeholder.com/600x400/0000FF/FFFFFF?text=HVAC+Photo+2'],
+        link: '#',
         tags: ['PLC', 'HMI', 'Allen Bradley', 'Omron'],
       },
       {
         id: 2,
         title: 'Nitrogen Generation System for Shell F6 Vlap',
-        tag: '.PLC',
         category: 'control system',
         description: 'Designed and pre-commissioned the local control panel for a nitrogen generation package using Allen Bradley PLC (ControlLogix).',
         image: new URL('../assets/projects/ISS_n2_vlap.jpg', import.meta.url).href,
-        isNew: false,
-        codeLink: '#',
-        demoLink: '#',
-        fullDescription: 'Designed, set up, and pre-commissioned the local control panel for a nitrogen generation package, performed FAT and SAT to ensure seamless integration and optimal performance of the PLC-based control system. Designed control panel (System Architecture, General Arrangement, Wiring Diagram). Developed program for Allen Bradley PLC (ControlLogix) and graphics for HMI (Panelview Plus 7 Performance). Performed FAT and SAT.',
-        photos: ['https://via.placeholder.com/600x400/0000FF/FFFFFF?text=Nitrogen+Photo+1', 'https://via.placeholder.com/600x400/0000FF/FFFFFF?text=Nitrogen+Photo+2'],
+        link: '#',
         tags: ['PLC', 'HMI', 'Allen Bradley', 'Control Panel Design'],
       },
       {
@@ -94,11 +89,7 @@ export default {
         category: 'control system',
         description: 'Developed and implemented the system control panel for a helium recovery package with Allen Bradley PLC (CompactLogix).',
         image: new URL('../assets/projects/AL_hogback.jpg', import.meta.url).href,
-        isNew: false,
-        codeLink: '#',
-        demoLink: '#',
-        fullDescription: 'Developed and implemented the system control panel for a helium recovery package, configuring control strategies, performing FAT, and ensuring precise system integration for efficient recovery and operation. Designed control panel (System Architecture, General Arrangement, Wiring Diagram). Developed program for Allen Bradley PLC (CompactLogix) and graphics for an Industrial PC.',
-        photos: ['https://via.placeholder.com/600x400/0000FF/FFFFFF?text=Helium+Photo+1', 'https://via.placeholder.com/600x400/0000FF/FFFFFF?text=Helium+Photo+2'],
+        link: '#',
         tags: ['PLC', 'HMI', 'Allen Bradley', 'Control Panel Design'],
       },
       {
@@ -108,11 +99,7 @@ export default {
         category: 'control system',
         description: 'Performed annual preventive maintenance for 27 Allen Bradley PLC systems, including visual inspection, system health checks, and program backup.',
         image: new URL('../assets/projects/pm_pttep_serendah.jpg', import.meta.url).href,
-        isNew: false,
-        codeLink: '#',
-        demoLink: '#',
-        fullDescription: 'Performed visual inspection, check system health, backup HMI and PLC program, troubleshoot/debug existing program and backup latest program, perform fault rectification for 27 systems across various satellite platforms.',
-        photos: ['https://via.placeholder.com/600x400/0000FF/FFFFFF?text=PTTEP+PM+Photo+1'],
+        link: '#',
         tags: ['Preventive Maintenance', 'PLC', 'HMI', 'Allen Bradley'],
       },
       {
@@ -122,11 +109,7 @@ export default {
         category: 'control system',
         description: 'Conducted preventive maintenance and site surveys for 2 Siemens and Mitsubishi PLC systems at Jadestone Belumut Platform.',
         image: new URL('../assets/projects/pm_jse_belumut.jpg', import.meta.url).href,
-        isNew: false,
-        codeLink: '#',
-        demoLink: '#',
-        fullDescription: 'Performed visual inspection, check system health, backup HMI and PLC program, troubleshoot/debug existing program and backup latest program, perform fault rectification for 2 systems.',
-        photos: ['https://via.placeholder.com/600x400/0000FF/FFFFFF?text=Jadestone+PM+Photo+1'],
+        link: '#',
         tags: ['Preventive Maintenance', 'PLC', 'HMI', 'Siemens'],
       },
       {
@@ -136,11 +119,7 @@ export default {
         category: 'control system',
         description: 'Developed the logic diagram for the control system of an ethylene liquefaction package for INEOS, ensuring safe and efficient operation.',
         image: new URL('../assets/projects/rei_logic_diagram.png', import.meta.url).href,
-        isNew: false,
-        codeLink: '#',
-        demoLink: '#',
-        fullDescription: 'Developed the logic diagram for the control system of an ethylene liquefaction package, integrating process variables and safety interlocks to ensure efficient and safe operation.',
-        photos: ['https://via.placeholder.com/600x400/0000FF/FFFFFF?text=INEOS+Logic+Diagram'],
+        link: '#',
         tags: ['Control System Design', 'Logic Diagram', 'P&ID'],
       },
       {
@@ -150,11 +129,7 @@ export default {
         category: 'software development',
         description: 'A web-app habit tracker built with Vue.js that helps users track habits, view statistics, and receive push notifications.',
         image: new URL('../assets/projects/bitbybit.png', import.meta.url).href,
-        isNew: true,
-        codeLink: '#',
-        demoLink: '#',
-        fullDescription: 'A web-app habit tracker built with Vue.js, that helps users build and track habits, displays performance statistics, and sends push notifications to keep users on track.',
-        photos: ['https://via.placeholder.com/600x400/008000/FFFFFF?text=BitByBit+Screenshot+1'],
+        link: 'https://bitbybit-5afe4.web.app/',
         tags: ['Vue.js', 'Web App', 'Frontend', 'PWA'],
       },
       {
@@ -164,11 +139,7 @@ export default {
         category: 'software development',
         description: 'A web tool that extracts questions, diagrams, and tables from exam PDFs into formatted DOCX files using FastAPI, Gemini API, and Vue.js.',
         image: new URL('../assets/projects/extract_exam_questions.png', import.meta.url).href,
-        isNew: true,
-        codeLink: '#',
-        demoLink: '#',
-        fullDescription: 'A web tool developed with FastAPI, Gemini API, and Vue.js that extracts questions, diagrams, and tables from exam PDFs (rasterized or text-based) into clean, formatted DOCX files—saving teachers hours of manual work.',
-        photos: ['https://via.placeholder.com/600x400/008000/FFFFFF?text=Exam+Extractor+Screenshot+1'],
+        link: 'https://github.com/ikmalrasli/extract-exam-questions',
         tags: ['FastAPI', 'Gemini API', 'PDF Processing', 'Web Tool'],
       },
       {
@@ -178,11 +149,7 @@ export default {
         category: 'university',
         description: 'Developed an automatic fish feeder that dispenses food based on fish count and age, optimizing aquaponic system feeding cycles.',
         image: new URL('../assets/projects/fish_feeder.jpg', import.meta.url).href,
-        isNew: false,
-        codeLink: '#',
-        demoLink: '#',
-        fullDescription: 'Developed an automatic fish feeder that dispenses appropriate amounts of food based on fish number and age.',
-        photos: ['https://via.placeholder.com/600x400/800080/FFFFFF?text=Fish+Feeder+Photo+1'],
+        link: 'https://github.com/ikmalrasli/fish-feeder-pi',
         tags: ['IoT', 'Arduino', 'Aquaponics', 'Mechatronics'],
       },
       {
@@ -192,11 +159,7 @@ export default {
         category: 'university',
         description: 'An automatic gate security system using RFID and machine learning-based license plate recognition for vehicle access control.',
         image: new URL('../assets/projects/home_security.png', import.meta.url).href,
-        isNew: false,
-        codeLink: '#',
-        demoLink: '#',
-        fullDescription: 'Automatic gate that opens by detecting RFID and license plate of the house owner vehicle through image processing and machine learning process.',
-        photos: ['https://via.placeholder.com/600x400/800080/FFFFFF?text=Security+System+Photo+1'],
+        link: '#',
         tags: ['Machine Learning', 'RFID', 'Computer Vision'],
       },
     ];
@@ -211,6 +174,7 @@ export default {
     return {
       selectedCategory,
       filteredProjects,
+      openProjectLink,
     };
   },
 };
